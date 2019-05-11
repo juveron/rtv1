@@ -1,0 +1,7 @@
+sphere (0 0 0) 1 (1 0 1)
+plan (0 0 0) (0 1 0) (1 0 0)
+camera (0 2 3) (0 0 0)
+light (2 4 2)
+light (-2 4 2)
+light (2 4 -2)
+light (-2 4 -2)
