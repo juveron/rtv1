@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvitry <jvitry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: juveron <juveron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 17:58:33 by jvitry            #+#    #+#             */
-/*   Updated: 2019/05/09 15:39:34 by jvitry           ###   ########.fr       */
+/*   Updated: 2019/05/16 13:16:44 by juveron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ int		set_cylindre(t_scene *scene, char **tab)
 		;
 	if (j - 1 != 11)
 		return (-1);
-	scene->list[scene->i].form = (t_cylindre *)ft_memalloc(sizeof(t_cylindre));
+	if (!(scene->list[scene->i].form = (t_cylindre *)
+		ft_memalloc(sizeof(t_cylindre))))
+		return (-1);
 	attr_cylindre(scene->list[scene->i].form, tab);
 	scene->list[scene->i].color.x = ft_atof(tab[8] + 1);
 	scene->list[scene->i].color.y = ft_atof(tab[9]);
@@ -72,7 +74,8 @@ int		set_cone(t_scene *scene, char **tab)
 		;
 	if (j - 1 != 11)
 		return (-1);
-	scene->list[scene->i].form = (t_cone *)ft_memalloc(sizeof(t_cone));
+	if (!(scene->list[scene->i].form = (t_cone *)ft_memalloc(sizeof(t_cone))))
+		return (-1);
 	attr_cone(scene->list[scene->i].form, tab);
 	scene->list[scene->i].color.x = ft_atof(tab[8] + 1);
 	scene->list[scene->i].color.y = ft_atof(tab[9]);

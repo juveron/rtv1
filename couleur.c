@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   couleur.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvitry <jvitry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: juveron <juveron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/30 14:02:00 by jvitry            #+#    #+#             */
-/*   Updated: 2019/05/10 16:15:01 by jvitry           ###   ########.fr       */
+/*   Updated: 2019/05/16 13:19:40 by juveron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,13 @@ t_vecteur	r_color(t_ray *ray, t_formlist *list, t_vecteur *light, int n_light)
 	double		*min_max;
 	t_ray		sray;
 
-	r = (t_record*)ft_memalloc(sizeof(t_record) * 2);
-	min_max = (double *)ft_memalloc(2 * sizeof(double));
+	if (!(r = (t_record*)ft_memalloc(sizeof(t_record) * 2)))
+		exit(EXIT_FAILURE);
+	if (!(min_max = (double *)ft_memalloc(2 * sizeof(double))))
+	{
+		free(r);
+		exit(EXIT_FAILURE);
+	}
 	set_min_max(0.0, DBL_MAX, min_max);
 	vr = v_set(0, 0, 0);
 	if (hit_qqch(list, ray, min_max, &r[0]))

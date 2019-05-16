@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juveron <juveron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jvitry <jvitry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 17:13:32 by jvitry            #+#    #+#             */
-/*   Updated: 2019/05/11 16:04:14 by juveron          ###   ########.fr       */
+/*   Updated: 2019/05/09 15:32:56 by jvitry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,13 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
+
+typedef	struct	s_list
+{
+	void			*content;
+	size_t			content_size;
+	struct s_list	*next;
+}				t_list;
 
 size_t			ft_strlen(const char *s);
 void			ft_putchar(char c);
@@ -69,12 +76,6 @@ void			ft_putnbr_fd(int n, int fd);
 size_t			ft_strlcat(char *dest, const char *src, size_t size);
 char			**ft_strsplit(const char *str, char c);
 char			*ft_itoa(int nbr);
-typedef	struct	s_list
-{
-	void			*content;
-	size_t			content_size;
-	struct s_list	*next;
-}				t_list;
 t_list			*ft_lstnew(void const *content, size_t content_size);
 void			ft_lstdelone(t_list **alst, void (*del)(void *, size_t));
 void			ft_lstdel(t_list **alst, void (*del)(void *, size_t));

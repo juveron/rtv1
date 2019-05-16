@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvitry <jvitry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: juveron <juveron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/30 14:03:05 by jvitry            #+#    #+#             */
-/*   Updated: 2019/05/10 16:43:23 by jvitry           ###   ########.fr       */
+/*   Updated: 2019/05/16 13:15:03 by juveron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-t_ray	set_ray(int i, int j, t_camera cam)
+t_ray		set_ray(int i, int j, t_camera cam)
 {
 	t_ray		ray;
 	t_vecteur	temp[3];
@@ -29,7 +29,30 @@ t_ray	set_ray(int i, int j, t_camera cam)
 	return (ray);
 }
 
-void	raytracer(t_camera cam, t_scene *scene, t_mlx *mlx)
+void		free_my_scene(t_scene *scene)
+{
+	int i;
+
+	i = 0;
+	if (scene)
+	{
+		if (scene->light)
+			free(scene->light);
+		if (scene->list)
+		{
+			while (scene->list[i].form)
+			{
+				if (scene->list[i].form)
+					free(scene->list[i].form);
+				i++;
+			}
+			free(scene->list);
+		}
+		free(scene);
+	}
+}
+
+void		raytracer(t_camera cam, t_scene *scene, t_mlx *mlx)
 {
 	int			col[4];
 	double		tab[2];
@@ -56,13 +79,14 @@ void	raytracer(t_camera cam, t_scene *scene, t_mlx *mlx)
 	}
 }
 
-int		closer(void *param)
+static int	closer(t_mlx *mlx)
 {
-	(void)param;
-	exit(0);
+	mlx_destroy_image(mlx->mlx, mlx->img.img_ptr);
+	mlx_destroy_window(mlx->mlx, mlx->win);
+	exit(EXIT_SUCCESS);
 }
 
-int		main(int ac, char **av)
+int			main(int ac, char **av)
 {
 	t_mlx		mlx;
 	t_scene		*scene;
@@ -71,13 +95,15 @@ int		main(int ac, char **av)
 	if (ac != 2)
 	{
 		ft_putendl("Usage : ./rtv1 scene_valide");
-		exit(0);
+		exit(EXIT_FAILURE);
 	}
-	scene = (t_scene *)ft_memalloc(sizeof(t_scene));
+	if (!(scene = (t_scene *)ft_memalloc(sizeof(t_scene))))
+		return (-1);
 	ft_parseur(av, scene);
 	mlx_set(&mlx);
 	cam = s_cam(scene->camorigin, scene->camdir, v_set(0, 1, 0), 90);
 	raytracer(cam, scene, &mlx);
+	free_my_scene(scene);
 	mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img.img_ptr, 0, 0);
 	mlx_key_hook(mlx.win, my_key_funct, &mlx);
 	mlx_hook(mlx.win, 17, 0, closer, (void *)&mlx);

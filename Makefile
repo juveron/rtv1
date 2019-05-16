@@ -6,7 +6,7 @@
 #    By: juveron <juveron@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/01 12:13:48 by jvitry            #+#    #+#              #
-#    Updated: 2019/05/10 17:53:57 by juveron          ###   ########.fr        #
+#    Updated: 2019/05/15 11:19:33 by juveron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ $(NAME) : $(OBJ)
 	@$(CC) -o $(NAME) $(FLAGS) $(OBJ) $(LIB) -framework OpenGL -framework Appkit
 	@echo "Compilation termine"
 
-%.o : %.c
+%.o : %.c rtv1.h
 	@echo "\033[0;36m\033[1ACompilation de $@\033[0m"
 	@$(CC) $(FLAGS) -c $<
 

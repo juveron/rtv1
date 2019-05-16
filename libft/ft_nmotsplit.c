@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_nmotsplit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juveron <juveron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jvitry <jvitry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/06 15:49:10 by jvitry            #+#    #+#             */
-/*   Updated: 2019/05/11 16:03:21 by juveron          ###   ########.fr       */
+/*   Updated: 2019/05/09 15:27:46 by jvitry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_nmotsplit(const char *s, char c)
+int	ft_nmotsplit(const char *s, char c)
 {
 	int		cnt;
 	int		in_substring;

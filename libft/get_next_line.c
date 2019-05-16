@@ -3,96 +3,65 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvitry <jvitry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: juveron <juveron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/27 15:20:44 by jvitry            #+#    #+#             */
-/*   Updated: 2019/05/09 15:30:58 by jvitry           ###   ########.fr       */
+/*   Created: 2018/11/29 14:26:01 by juveron           #+#    #+#             */
+/*   Updated: 2018/11/30 14:25:35 by juveron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/get_next_line.h"
+#include "get_next_line.h"
 
-static t_list	*get_data(t_list **list, int fd)
-{
-	t_list	*tmp;
-
-	tmp = *list;
-	while (tmp)
-	{
-		if ((int)tmp->content_size == fd)
-			return (tmp);
-		tmp = tmp->next;
-	}
-	tmp = ft_lstnew("\0", fd);
-	ft_lstadd(list, tmp);
-	tmp = *list;
-	return (tmp);
-}
-
-static int		ft_endgnl(char **buffer, char **line)
-{
-	unsigned long long int	i;
-	int						flag;
-
-	i = -1;
-	flag = 0;
-	ft_memdel((void **)line);
-	*line = ft_strdup(*buffer);
-	ft_memdel((void **)buffer);
-	while ((*line)[++i])
-		if ((*line)[i] == '\n')
-		{
-			flag = 1;
-			(*line)[i] = '\0';
-			*buffer = ft_strdup(&((*line)[i + 1]));
-			break ;
-		}
-	if (i && !flag)
-	{
-		ft_memdel((void **)buffer);
-		*buffer = NULL;
-		return (1);
-	}
-	return (1 && flag);
-}
-
-static int		ft_fjoin(char **save, char *buffer)
+int		ft_extract_line(char **ptr, char **line, int fd, int ret)
 {
 	char	*tmp;
+	int		x;
 
-	tmp = ft_strdup(*save);
-	ft_strdel((char **)save);
-	if (!(*save = (char *)malloc(sizeof(char)
-					* (ft_strlen(tmp) + BUFF_SIZE + 1))))
-		return (0);
-	*save = ft_strcpy(*save, tmp);
-	*save = ft_strcat(*save, buffer);
-	ft_strdel(&tmp);
+	x = 0;
+	while (ptr[fd][x] != '\n' && ptr[fd][x] != '\0')
+		x++;
+	if (ptr[fd][x] == '\n')
+	{
+		*line = ft_strsub(ptr[fd], 0, x);
+		tmp = ft_strdup(ptr[fd] + x + 1);
+		free(ptr[fd]);
+		ptr[fd] = tmp;
+		if (ptr[fd][0] == '\0')
+			ft_strdel(&ptr[fd]);
+	}
+	else if (ptr[fd][x] == '\0')
+	{
+		if (ret == BUFF_SIZE)
+			return (get_next_line(fd, line));
+		*line = ft_strdup(ptr[fd]);
+		ft_strdel(&ptr[fd]);
+	}
 	return (1);
 }
 
-int				get_next_line(int const fd, char **line)
+int		get_next_line(const int fd, char **line)
 {
-	static	t_list	*list;
-	t_list			*tmp;
-	char			buffer[BUFF_SIZE + 1];
-	int				ret;
+	static char	*ptr[OPEN_MAX];
+	char		buf[BUFF_SIZE + 1];
+	char		*tmp;
+	int			ret;
 
-	if (fd < 0 || line == NULL || read(fd, buffer, 0) < 0)
+	if (fd < 0 || line == NULL)
 		return (-1);
-	tmp = get_data(&list, fd);
-	if (!(*line = (char *)ft_strnew(1)))
-		return (-1);
-	if (!tmp->content)
-		if (!(tmp->content = ft_strnew(1)))
-			return (-1);
-	while ((ret = read(fd, buffer, BUFF_SIZE)))
+	while ((ret = read(fd, buf, BUFF_SIZE)) > 0)
 	{
-		buffer[ret] = '\0';
-		if (!(ft_fjoin((char **)&tmp->content, buffer)))
-			return (-1);
-		if (ft_strchr(buffer, '\n'))
+		buf[ret] = '\0';
+		if (ptr[fd] == NULL)
+			ptr[fd] = ft_strnew(1);
+		tmp = ft_strjoin(ptr[fd], buf);
+		free(ptr[fd]);
+		ptr[fd] = tmp;
+		if (ft_strchr(buf, '\n'))
 			break ;
 	}
-	return (ft_endgnl((char **)&tmp->content, line));
+	if (ret < 0)
+		return (-1);
+	else if (ret == 0 && (ptr[fd] == NULL || ptr[fd][0] == '\0'))
+		return (0);
+	return (ft_extract_line(ptr, line, fd, ret));
 }
