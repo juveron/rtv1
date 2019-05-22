@@ -6,12 +6,13 @@
 /*   By: jvitry <jvitry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 17:13:32 by jvitry            #+#    #+#             */
-/*   Updated: 2019/05/09 15:32:56 by jvitry           ###   ########.fr       */
+/*   Updated: 2019/05/22 15:28:20 by juveron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
+
 # include <string.h>
 # include <unistd.h>
 # include <stdlib.h>
