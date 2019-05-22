@@ -6,7 +6,7 @@
 /*   By: juveron <juveron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 17:58:33 by jvitry            #+#    #+#             */
-/*   Updated: 2019/05/16 13:16:44 by juveron          ###   ########.fr       */
+/*   Updated: 2019/05/22 15:17:57 by juveron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int		set_cylindre(t_scene *scene, char **tab)
 	if (j - 1 != 11)
 		return (-1);
 	if (!(scene->list[scene->i].form = (t_cylindre *)
-		ft_memalloc(sizeof(t_cylindre))))
+			ft_memalloc(sizeof(t_cylindre))))
 		return (-1);
 	attr_cylindre(scene->list[scene->i].form, tab);
 	scene->list[scene->i].color.x = ft_atof(tab[8] + 1);

@@ -121,6 +121,7 @@ typedef struct	s_mlx
 	t_img	img;
 }				t_mlx;
 
+void			free_my_scene(t_scene *scene);
 t_vecteur		v_add(t_vecteur v1, t_vecteur v2);
 t_vecteur		v_less(t_vecteur v1, t_vecteur v2);
 t_vecteur		v_cross(t_vecteur v1, t_vecteur v2);
@@ -149,8 +150,7 @@ double			*cone_tab(t_cone *cone, t_ray *ray);
 void			ret_inter(t_formlist list, double *min_max,
 	t_record *rec, int *hit);
 t_vecteur		libe(void **r, void **min_max, t_vecteur vr);
-t_vecteur		r_color(t_ray *ray, t_formlist *list,
-	t_vecteur *light, int n_light);
+t_vecteur		r_color(t_ray *ray, t_scene *scene, int n_light);
 void			printexit(void);
 int				hit_sphere(t_sphere *sphere,
 	t_ray *ray, double *min_max, t_record *rec);

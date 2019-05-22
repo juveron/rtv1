@@ -6,7 +6,7 @@
 /*   By: juveron <juveron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 18:18:32 by jvitry            #+#    #+#             */
-/*   Updated: 2019/05/16 12:20:02 by juveron          ###   ########.fr       */
+/*   Updated: 2019/05/22 15:18:39 by juveron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int		set_sphere(t_scene *scene, char **tab)
 	if (j - 1 != 8)
 		return (-1);
 	if (!(scene->list[scene->i].form = (t_sphere *)
-		ft_memalloc(1 * sizeof(t_sphere))))
+			ft_memalloc(1 * sizeof(t_sphere))))
 		return (-1);
 	attr_sphere(scene->list[scene->i].form, tab);
 	scene->list[scene->i].color.x = ft_atof(tab[5] + 1);
@@ -69,7 +69,7 @@ int		set_plan(t_scene *scene, char **tab)
 	if (j - 1 != 10)
 		return (-1);
 	if (!(scene->list[scene->i].form = (t_plan *)
-		ft_memalloc(1 * sizeof(t_plan))))
+			ft_memalloc(1 * sizeof(t_plan))))
 		return (-1);
 	attr_plan(scene->list[scene->i].form, tab);
 	scene->list[scene->i].color.x = ft_atof(tab[7] + 1);

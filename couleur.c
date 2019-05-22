@@ -63,34 +63,36 @@ t_vecteur	c_shadow(t_vecteur *light, t_record *r, t_vecteur vr, int n_light)
 	return (vr);
 }
 
-void		r_free_exit(t_record *r)
+void		r_free_exit(t_record *r, t_scene *scene)
 {
-	free(r);
+	if (r != NULL)
+		free(r);
+	free_my_scene(scene);
 	exit(EXIT_FAILURE);
 }
 
-t_vecteur	r_color(t_ray *ray, t_formlist *list, t_vecteur *light, int n_light)
+t_vecteur	r_color(t_ray *ray, t_scene *scene, int n_light)
 {
 	t_vecteur	vr;
 	t_record	*r;
-	double		*min_max = NULL;
+	double		*min_max;
 	t_ray		sray;
 
 	if (!(r = (t_record*)ft_memalloc(sizeof(t_record) * 2)))
-		exit(EXIT_FAILURE);
+		r_free_exit(NULL, scene);
 	if (!(min_max = (double *)ft_memalloc(2 * sizeof(double))))
-		r_free_exit(r);
+		r_free_exit(r, scene);
 	set_min_max(0.0, DBL_MAX, min_max);
 	vr = v_set(0, 0, 0);
-	if (hit_object(list, ray, min_max, &r[0]))
+	if (hit_object(scene->list, ray, min_max, &r[0]))
 	{
 		while (n_light-- > 0)
 		{
 			set_min_max(0.01, 1, min_max);
 			sray.ori = v_mult(r[0].p, 1.00001);
-			sray.dir = v_less(light[n_light], r[0].p);
-			if (!(hit_object(list, &sray, min_max, &r[1])))
-				vr = c_shadow(light, &r[0], vr, n_light);
+			sray.dir = v_less(scene->light[n_light], r[0].p);
+			if (!(hit_object(scene->list, &sray, min_max, &r[1])))
+				vr = c_shadow(scene->light, &r[0], vr, n_light);
 		}
 		return (libe((void **)&r, (void **)&min_max, vr));
 	}

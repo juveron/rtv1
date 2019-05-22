@@ -67,7 +67,7 @@ void		raytracer(t_camera cam, t_scene *scene, t_mlx *mlx)
 		while (tab[0] < W_LENGHT)
 		{
 			ray = set_ray(tab[0], tab[1], cam);
-			couleur = r_color(&ray, scene->list, scene->light, scene->n_light);
+			couleur = r_color(&ray, scene, scene->n_light);
 			col[0] = (int)(255 * couleur.x);
 			col[1] = (int)(255 * couleur.y);
 			col[2] = (int)(255 * couleur.z);
@@ -79,7 +79,7 @@ void		raytracer(t_camera cam, t_scene *scene, t_mlx *mlx)
 	}
 }
 
-static int	closer(t_mlx *mlx)
+int			closer(t_mlx *mlx)
 {
 	mlx_destroy_image(mlx->mlx, mlx->img.img_ptr);
 	mlx_destroy_window(mlx->mlx, mlx->win);

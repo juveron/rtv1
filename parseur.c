@@ -6,11 +6,21 @@
 /*   By: juveron <juveron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 12:22:19 by jvitry            #+#    #+#             */
-/*   Updated: 2019/05/20 13:28:03 by juveron          ###   ########.fr       */
+/*   Updated: 2019/05/22 15:20:29 by juveron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
+
+void	exit_get_number(int fd, char *line, char **tab, t_scene *scene)
+{
+	tab_free(tab, line);
+	while (get_next_line(fd, &line) == 1)
+		free(line);
+	close(fd);
+	free_my_scene(scene);
+	printexit();
+}
 
 int		get_numbers(t_scene *scene, char **av)
 {
@@ -24,16 +34,17 @@ int		get_numbers(t_scene *scene, char **av)
 	while (get_next_line(fd, &line) == 1)
 	{
 		tab = ft_strsplit(line, ' ');
-		if (ft_strcmp(tab[0], "sphere") == 0 || ft_strcmp(tab[0], "plan")
-			== 0 || ft_strcmp(tab[0], "cylindre") == 0
-			|| ft_strcmp(tab[0], "cone") == 0)
+		if (tab[0] && (ft_strcmp(tab[0], "sphere") == 0
+				|| ft_strcmp(tab[0], "plan") == 0
+				|| ft_strcmp(tab[0], "cylindre") == 0
+				|| ft_strcmp(tab[0], "cone") == 0))
 			scene->n_obj++;
-		else if (ft_strcmp(tab[0], "light") == 0)
+		else if (tab[0] && (ft_strcmp(tab[0], "light") == 0))
 			scene->n_light++;
-		else if (ft_strcmp(tab[0], "camera") == 0)
+		else if (tab[0] && (ft_strcmp(tab[0], "camera") == 0))
 			cam++;
 		else
-			printexit();
+			exit_get_number(fd, line, tab, scene);
 		tab_free(tab, line);
 	}
 	close(fd);
@@ -86,16 +97,19 @@ void	ft_parseur(char **av, t_scene *scene)
 		printexit();
 	scene->n_obj = 0;
 	scene->n_light = 0;
-	if (get_numbers(scene, av) != 1)
+	if (get_numbers(scene, av) != 1 || scene->n_obj == 0)
+	{
+		free_my_scene(scene);
 		printexit();
-	if (scene->n_obj == 0)
-		printexit();
-	if (!(scene->list = (t_formlist *)
-		ft_memalloc(scene->n_obj * sizeof(t_formlist))))
-		return ;
-	if (!(scene->light = (t_vecteur *)
-		ft_memalloc(scene->n_light * sizeof(t_vecteur))))
-		return ;
+	}
+	if (!(scene->list = (t_formlist *)ft_memalloc(scene->n_obj
+				* sizeof(t_formlist)))
+		|| !(scene->light = (t_vecteur *)ft_memalloc(scene->n_light
+				* sizeof(t_vecteur))))
+	{
+		free_my_scene(scene);
+		exit(EXIT_FAILURE);
+	}
 	scene->i = 0;
 	scene->k = 0;
 	scene->list[scene->n_obj].form = NULL;

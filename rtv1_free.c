@@ -22,11 +22,9 @@ t_vecteur	libe(void **r, void **min_max, t_vecteur vr)
 int			tab_free(char **tab, char *line)
 {
 	int i;
-	int k;
 
 	i = -1;
-	k = ft_nmotsplit(line, ' ');
-	while (++i < k && tab[i])
+	while (tab[++i])
 		ft_memdel((void **)&tab[i]);
 	ft_memdel((void **)&tab);
 	ft_memdel((void **)&line);
