@@ -6,7 +6,7 @@
 /*   By: juveron <juveron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/30 14:02:00 by jvitry            #+#    #+#             */
-/*   Updated: 2019/05/16 13:19:40 by juveron          ###   ########.fr       */
+/*   Updated: 2019/05/20 14:19:36 by juveron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,14 @@ t_vecteur	r_color(t_ray *ray, t_formlist *list, t_vecteur *light, int n_light)
 	}
 	set_min_max(0.0, DBL_MAX, min_max);
 	vr = v_set(0, 0, 0);
-	if (hit_qqch(list, ray, min_max, &r[0]))
+	if (hit_object(list, ray, min_max, &r[0]))
 	{
 		while (n_light-- > 0)
 		{
 			set_min_max(0.01, 1, min_max);
 			sray.ori = v_mult(r[0].p, 1.00001);
 			sray.dir = v_less(light[n_light], r[0].p);
-			if (!(hit_qqch(list, &sray, min_max, &r[1])))
+			if (!(hit_object(list, &sray, min_max, &r[1])))
 				vr = c_shadow(light, &r[0], vr, n_light);
 		}
 		return (libe((void **)&r, (void **)&min_max, vr));

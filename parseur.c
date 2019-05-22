@@ -6,7 +6,7 @@
 /*   By: juveron <juveron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 12:22:19 by jvitry            #+#    #+#             */
-/*   Updated: 2019/05/16 13:16:02 by juveron          ###   ########.fr       */
+/*   Updated: 2019/05/20 13:28:03 by juveron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,21 +67,12 @@ int		get_obj(t_scene *scene, int fd)
 		tab = ft_strsplit(line, ' ');
 		if (ft_strcmp(tab[0], "sphere") == 0)
 			if (set_sphere(scene, tab) == -1)
-			{
-				tab_free(tab, line);
-				return (-1);
-			}
+				return (tab_free(tab, line));
 		if (ft_strcmp(tab[0], "plan") == 0)
 			if (set_plan(scene, tab) == -1)
-			{
-				tab_free(tab, line);
-				return (-1);
-			}
+				return (tab_free(tab, line));
 		if (get_objnext(scene, tab) == -1)
-		{
-			tab_free(tab, line);
-			return (-1);
-		}
+			return (tab_free(tab, line));
 		tab_free(tab, line);
 	}
 	return (1);
@@ -99,9 +90,11 @@ void	ft_parseur(char **av, t_scene *scene)
 		printexit();
 	if (scene->n_obj == 0)
 		printexit();
-	if (!(scene->list = (t_formlist *)ft_memalloc(scene->n_obj * sizeof(t_formlist))))
+	if (!(scene->list = (t_formlist *)
+		ft_memalloc(scene->n_obj * sizeof(t_formlist))))
 		return ;
-	if (!(scene->light = (t_vecteur *)ft_memalloc(scene->n_light * sizeof(t_vecteur))))
+	if (!(scene->light = (t_vecteur *)
+		ft_memalloc(scene->n_light * sizeof(t_vecteur))))
 		return ;
 	scene->i = 0;
 	scene->k = 0;

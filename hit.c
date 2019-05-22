@@ -6,7 +6,7 @@
 /*   By: juveron <juveron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 16:13:51 by jvitry            #+#    #+#             */
-/*   Updated: 2019/05/10 17:53:21 by juveron          ###   ########.fr       */
+/*   Updated: 2019/05/20 13:14:52 by juveron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int			hit_plan(t_plan *plan, t_ray *ray, double *min_max, t_record *rec)
 	return (0);
 }
 
-int			hit_qqch(t_formlist *list,
+int			hit_object(t_formlist *list,
 	t_ray *ray, double *min_max, t_record *rec)
 {
 	int	i;

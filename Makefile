@@ -6,12 +6,12 @@
 #    By: juveron <juveron@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/01 12:13:48 by jvitry            #+#    #+#              #
-#    Updated: 2019/05/15 11:19:33 by juveron          ###   ########.fr        #
+#    Updated: 2019/05/20 13:18:08 by juveron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = rtv1
-SRC = vec1.c vec2.c mlx.c setting.c hit.c camera.c hit2.c hit3.c couleur.c main.c parseur.c free.c set2.c
+SRC = vec1.c vec2.c mlx.c setting.c hit.c camera.c hit2.c hit3.c couleur.c main.c parseur.c rtv1_free.c set2.c
 OBJ = $(SRC:.c=.o)
 CC = cc -g3
 FLAGS = -Wall -Werror -Wextra

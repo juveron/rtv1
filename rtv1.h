@@ -6,7 +6,7 @@
 /*   By: juveron <juveron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:55:55 by jvitry            #+#    #+#             */
-/*   Updated: 2019/05/16 13:22:43 by juveron          ###   ########.fr       */
+/*   Updated: 2019/05/20 14:20:34 by juveron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ int				set_sphere(t_scene *scene, char **tab);
 void			set_min_max(double min, double max, double *min_max);
 int				hit_sphere(t_sphere *sphere, t_ray *ray,
 	double *min_max, t_record *rec);
-int				hit_qqch(t_formlist *list, t_ray *ray,
+int				hit_object(t_formlist *list, t_ray *ray,
 	double *min_max, t_record *rec);
 t_formlist		*set_list(void);
 t_camera		s_cam(t_vecteur lookfrom, t_vecteur lookat,
@@ -154,7 +154,7 @@ t_vecteur		r_color(t_ray *ray, t_formlist *list,
 void			printexit(void);
 int				hit_sphere(t_sphere *sphere,
 	t_ray *ray, double *min_max, t_record *rec);
-void			tab_free(char **tab, char *line);
+int				tab_free(char **tab, char *line);
 int				set_plan(t_scene *scene, char **tab);
 int				set_cylindre(t_scene *scene, char **tab);
 int				set_cone(t_scene *scene, char **tab);
