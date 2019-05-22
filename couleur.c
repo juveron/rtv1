@@ -6,7 +6,7 @@
 /*   By: juveron <juveron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/30 14:02:00 by jvitry            #+#    #+#             */
-/*   Updated: 2019/05/20 14:19:36 by juveron          ###   ########.fr       */
+/*   Updated: 2019/05/22 11:25:54 by juveron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,20 +63,23 @@ t_vecteur	c_shadow(t_vecteur *light, t_record *r, t_vecteur vr, int n_light)
 	return (vr);
 }
 
+void		r_free_exit(t_record *r)
+{
+	free(r);
+	exit(EXIT_FAILURE);
+}
+
 t_vecteur	r_color(t_ray *ray, t_formlist *list, t_vecteur *light, int n_light)
 {
 	t_vecteur	vr;
 	t_record	*r;
-	double		*min_max;
+	double		*min_max = NULL;
 	t_ray		sray;
 
 	if (!(r = (t_record*)ft_memalloc(sizeof(t_record) * 2)))
 		exit(EXIT_FAILURE);
 	if (!(min_max = (double *)ft_memalloc(2 * sizeof(double))))
-	{
-		free(r);
-		exit(EXIT_FAILURE);
-	}
+		r_free_exit(r);
 	set_min_max(0.0, DBL_MAX, min_max);
 	vr = v_set(0, 0, 0);
 	if (hit_object(list, ray, min_max, &r[0]))
